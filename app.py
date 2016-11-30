@@ -17,10 +17,18 @@ db = mongo_client.econ
 with open(('./resp'), 'r') as f:
     page = f.read()
 
+
 soup = bs4.BeautifulSoup(page, 'lxml')
 
-munis = soup.find(id='mw-content-text').find_all('table')[1]
+munis = soup.find(class_="wikitable sortable").find_all('tr')[1:]
 
-print type(munis)
 for muni in munis:
-    db.munis.insert_one(muni)
+    cells = muni.find_all('td')
+    municipality = {}
+    municipality['state'] = 'Massachusetts'
+    municipality['municipality'] = cells[0].text
+    municipality['type'] = cells[1].text
+    municipality['county'] = cells[2].text
+    municipality['population'] = cells[4].text
+    municipality['established'] = cells[5].text
+    db.munis.insert_one(municipality)
