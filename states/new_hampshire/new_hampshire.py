@@ -29,6 +29,7 @@ for muni in munis:
     cells = muni.find_all('td')
     muni_to_add['name'] = cells[0].text
     muni_to_add['county'] = cells[1].text
-    muni_to_add['incorporated'] = cells[2].text
-    muni_to_add['population'] = cells[3].text
+    muni_to_add['state'] = unicode('New Hampshire')
+    muni_to_add['population'] = {}
+    muni_to_add['population']['2010'] = int(cells[3].text.replace(',',''))
     db.munis.insert_one(muni_to_add)
