@@ -1,4 +1,4 @@
 env/
 *.html
-dump/
 notes.txt
+*.pyc
